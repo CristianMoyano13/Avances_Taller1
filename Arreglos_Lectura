@@ -1,0 +1,428 @@
+package Taller1;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+class Cuenta{
+	private String nombreCuenta;
+	private String password;
+	private String nick;
+	private int nivelCuenta;
+	private int rp;
+	private int cantPersonajes;
+	private boolean StatusBloqueo;
+	private String region;
+	private String[] personajesObtenidos;
+	public Cuenta(String nombreCuenta1, String region1, int rp1 ,int nivel, String nick1, boolean bloqueado1, String password1, int cantPersonajes1, String [] personajesObtenidos1) {
+		nombreCuenta = nombreCuenta1;
+		region = region1;
+		rp = rp1;
+		nivelCuenta = nivel;
+		nick = nick1;
+		StatusBloqueo = bloqueado1;
+		password = password1;
+		cantPersonajes = cantPersonajes1;
+		personajesObtenidos = personajesObtenidos1;
+	}
+	public  String getnombreCuenta() {
+		return nombreCuenta;
+	}
+	public void setnombreCuenta(String nombreCuenta1) {
+		this.nombreCuenta = nombreCuenta1;
+	}
+	public  String getpassword() {
+		return password;
+	}
+	public void setpassword(String password1) {
+		this.password = password1;
+	}
+	public  String getnick() {
+		return nick;
+	}
+	public void setnick(String nick1) {
+		this.nick = nick1;
+	}
+	public int getnivelCuenta() {
+		return nivelCuenta;
+	}
+	public void setnivelCuneta(int nivel) {
+		this.nivelCuenta = nivel;
+	}
+	public int getrp() {
+		return rp;
+	}
+	public void setrp(int rp1) {
+		this.rp = rp1;
+	}
+	public int getcantPersonajes() {
+		return cantPersonajes;
+	}
+	public void setcantPersonajes(int cantPersonajes1) {
+		this.cantPersonajes = cantPersonajes1;
+	}
+	public boolean getStatusBloqueo() {
+		return StatusBloqueo;
+	}
+	public void setStatusBloqueo(boolean bloqueo1) {
+		this.StatusBloqueo = bloqueo1;
+	}
+	public String getregion() {
+		return region;
+	}
+	public void setregion(String region1) {
+		this.region = region1;
+	}
+}
+class personajeObtenido{
+	private String nombreCuenta1;
+	private int cantSkins;
+	private personajeObtenido[] personajeObtenidos;
+	private int cantPersonajesObtenidos;
+	private String Dueño;
+	int max;
+	private String nombreCuenta;
+	private String nombrePersonaje;
+	public personajeObtenido(String nombrePersonaje, int max) {
+		this.max=max;
+		this.cantPersonajesObtenidos = 0;
+		personajeObtenidos = new personajeObtenido [max];
+	}
+	public void setDueño(String nombreCuenta) {	
+		this.nombreCuenta = nombreCuenta1;
+	}
+	public void setpersonaje(String nombrePersonaje1) {
+		this.nombrePersonaje = nombrePersonaje1;
+	}
+	
+	public int getcantSkins() {
+		return cantSkins;
+	}
+	public void setcantSkins(int cantSkins1) {
+		this.cantSkins = cantSkins1;
+	}	
+}
+class personaje{
+	private String nombrePersonaje;
+	private String rolPersonaje;
+	private int cantSkins;
+	private int recaudación;
+	private int precio;
+	private String[] ListaSkin;
+	
+	public personaje(String nombrePersonaje1,String rolPersonaje1,int cantSkins1,int recaudación1,int precio1,String[] ListaSkin1){
+		nombrePersonaje = nombrePersonaje1;
+		rolPersonaje = rolPersonaje1;
+		cantSkins = cantSkins1;
+		recaudación = recaudación1;
+		precio = precio1;
+	}
+	public String getnombrePersonaje() {
+		return nombrePersonaje;
+	}
+	public void setnombrePersonaje(String nombrePersonaje1) {
+		this.nombrePersonaje = nombrePersonaje1;
+	}
+	public String getrolPersonaje() {
+		return rolPersonaje;
+	}
+	public void setrolPersonaje(String rolPersonaje1) {
+		this.rolPersonaje = rolPersonaje1;
+	}
+	public int getcantSkins() {
+		return cantSkins;
+	}
+	public void setcantSkins(int cantSkins1) {
+		this.cantSkins = cantSkins1;
+	}
+	public int getrecaudación() {
+		return recaudación;
+	}
+	public void setrecaudación(int recaudación1) {
+		this.recaudación = recaudación1;
+	}
+	public int getprecio() {
+		return precio;
+	}
+	public void setprecio(int precio1) {
+		this.precio = precio1;
+	}	
+}
+class skin{
+	private static final String[] personaje = null;
+	private static final int[] recaudacion = null;
+	private String nombreSkin;
+	private String calidad;
+	private int precio;
+	public void Skin(String nombreSkin1, String calidad1) {
+		nombreSkin = nombreSkin1;
+		calidad = calidad1;
+	}
+	public String getnombreSkin() {
+		return nombreSkin;
+	}
+	public void setnombreSkin(String nombreSkin1) {
+		this.nombreSkin = nombreSkin1;
+	}
+	public String getcalidad() {
+		return nombreSkin;
+	}
+	public void setcalidad(String calidad1) {
+		this.calidad = calidad1;
+	}
+	public int getprecio() {
+		return precio;
+	}
+	public void setprecio(int precio1) {
+		this.precio = precio1;
+	}
+	
+interface Sistema {
+	boolean AgregarPersonaje();
+	boolean AgregarSkin();
+	void AsociarPersonajeSkin();
+	boolean agregarCuenta();
+	void asociarPersonajeCuenta();
+	void asociarSkinCuenta();
+	void setRecaudacionPersonaje();
+	boolean Login();
+	boolean Registro();
+	void comprarSkin();
+	void comprarPersonaje();
+	void mostrarSkins();
+	void mostrarInventario();
+	void recargarRp();
+	void mostrarCuenta();
+	void cambiarPass();	
+}
+class SistemaImpl implements Sistema{
+	private String [] PersonajesJuego;
+	private int max = 308;
+	private int cantidadPersonajesJuego = 0;
+	
+	public boolean AgregarPersonaje(String nombrePersonaje, String rolPersonaje) {
+		if(cantidadPersonajesJuego == max) {
+			return false;
+		}
+		else {
+			PersonajesJuego[cantidadPersonajesJuego] = nombrePersonaje;
+			cantidadPersonajesJuego++;
+			return true;
+		}
+	}
+	private String [] SkinsJuego;
+	private int max1 = 999;
+	private int cantidadSkinsJuego = 0;
+	public boolean AgregarSkin(String nombreSkin,String calidadSkin) {
+		if(cantidadPersonajesJuego == max1) {
+			return false;
+		}
+		else {
+			SkinsJuego[cantidadSkinsJuego] =nombreSkin;
+			SkinsJuego[cantidadSkinsJuego+1] = calidadSkin;
+			cantidadSkinsJuego++;
+			return true;
+		}
+	}
+	public void AsociarPersonajeSkin(String nombrePersonaje, String nombreSkin) {
+		
+		//nombrePersonaje.getSkinsJuego.AgregarSkin;
+	}
+	private String [] CuentasJuego;
+	private int max2 = 999;
+	private int cantidadCuentasJuego = 0;
+	public boolean agregarCuenta(String nombreCuenta, String password, String nick, String nivelCuenta, String rp, String region) {
+		if(cantidadCuentasJuego == max2) {
+			return false;
+		}
+		else {
+			CuentasJuego[cantidadCuentasJuego] = nombreCuenta;
+			CuentasJuego[cantidadCuentasJuego+1] = password;
+			CuentasJuego[cantidadCuentasJuego+2] = nick;
+			CuentasJuego[cantidadCuentasJuego+3] = nivelCuenta;
+			CuentasJuego[cantidadCuentasJuego+4] = rp;
+			CuentasJuego[cantidadCuentasJuego+5] = region;
+			cantidadCuentasJuego++;
+			return true;
+		}
+	}
+	public void asociarPersonajeCuenta() {
+	}
+	public void asociarSkinCuenta() {
+	}
+	private double recaudacion;
+	public void setRecaudacionPersonaje(double recaudacion) {
+		this.recaudacion = recaudacion*6.15;
+	}
+	public boolean Login(String nombreCuenta) {
+		boolean llave = true;
+		while(llave) {
+			System.out.println("INICIAR SESION");
+			System.out.println("Escriba el nombre de la cuenta");
+			System.out.println("Para finalizar el programa introduzca (1): ");
+			Scanner sc = new Scanner(System.in);
+			String nombreCuenta2 = sc.nextLine();
+			int posicion = 0;
+			if (nombreCuenta2.equals(nombreCuenta)) {
+				posicion = 2;
+			}
+			else {
+				System.out.println("Usuario no existe");
+				System.out.println("Desea crar un nuevo Usuario");
+				System.out.println("Y/N");
+				String clave = sc.nextLine();
+				if((clave).equals("y")||(clave).equals("Y")) {
+					nuevo_usuario(nombreCuenta2);
+				}
+				else if((clave).equals("n")||(clave).equals("N")) {
+					/// NO SE HACE NADA
+				}
+				else{
+					System.out.println("ERROR COMANDO NO RECONOCIDO");
+				}
+				System.out.println("Volviendo al principio de la operacion");
+			}
+			if (posicion==2) {
+				System.out.println("Escriba su contraseña");
+				String contraseña = sc.nextLine();
+				if((contraseña).equals(password)) {
+					System.out.println("Contraseña correcta");
+				}
+				else{
+					System.out.println("ERROR-Contraseña invalida");
+				}
+				System.out.println("Volviendo al principio de la operacion");
+			}
+			else {
+				llave=false;
+				return false;
+				System.out.println("Se a finalizado la operacion");
+			}
+			
+		}
+	}
+	public boolean Registro(String nombreCuenta, int cantidadUsuarios, String password,String nick,int rp) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Porfavor crea el nombre de su cuenta:");
+		String name = sc.nextLine();
+		System.out.println("Porfavor indique su contraseña:");
+		String contraseña = sc.nextLine();
+		System.out.println("Porfavor indique su Nick:");
+		String nick2 = sc.nextLine();
+		nombreCuenta = name;
+		password = contraseña;
+		nick = nick2;
+		rp = 0;
+		cantidadUsuarios++;
+		return false;
+	}
+	public void comprarSkin() {
+	}
+	public void comprarPersonaje() {	
+	}
+	public void mostrarSkins() {
+	}
+	public void mostrarInventario() {
+	}
+	public void recargarRp() {
+	}
+	public void mostrarCuenta() {
+	}
+	public void cambiarPass() {
+	}
+}
+public class Taller1 {
+		//Carga archivo "Cuentas.txt"
+		public static int cantidadUsuarios=0;
+		public static String[] nombreCuenta = new String[999];
+		public static String[] password = new String[999];
+		public static String[] nick = new String[999];
+		public static int[] nivelCuenta = new int[999];
+		public static int[] rp = new int[999];
+		public static int[] cantPersonajes = new int[999];
+		public static String[] personajes = new String[999];
+		public static int[] cantSkins = new int[999];
+		public static String[] nombreSkins = new String[999];
+		public static String[] region = new String[999];
+		//Carga archivo "Personajes.txt"
+		public static int cantidadPersonajes=0;
+		public static String[] nombrePersonaje = new String[999];
+		public static String[] rolPersonaje = new String[999];
+		public static int[] cantidadSkins = new int[999];
+		public static String[] nombreSkin = new String[999];
+		public static String[] calidadSkin = new String[999];
+		//Carga archivo "Estadisticas.txt"
+		public static String[] personajeR = new String[999];
+		public static int[] recaudacion = new int [999];
+		
+		
+	
+	public static void main(String[] args) {
+	}
+	//public static void Carga_C() throws NumberFormatException, IOException {
+		File archivo = new File ("cuentas.txt"); 
+		FileReader text = new FileReader (archivo);
+		BufferedReader reader = new BufferedReader(text); 
+		String linea;
+		String[] partes;
+		while((linea = reader.readLine())!=null) {
+			partes  = linea.split(",");
+			nombreCuenta[cantidadUsuarios] = partes[0];
+			password[cantidadUsuarios] = partes[1];
+			nick[cantidadUsuarios] = partes[2];
+			nivelCuenta[cantidadUsuarios] = Integer.parseInt(partes[3]);
+			rp[cantidadUsuarios]=Integer.parseInt(partes[4]);
+			cantPersonajes[cantidadUsuarios]=Integer.parseInt(partes[5]);
+			for(int i = 0;i<cantPersonajes.length;i++) {
+				personajes[cantidadUsuarios] = partes[6];
+			}
+			cantSkins[cantidadUsuarios]=Integer.parseInt(partes[7]);
+			for(int j  = 0;j<cantSkins.length;j++) {
+				nombreSkins[cantidadUsuarios] = partes[8];
+			}
+			region[cantidadUsuarios] = partes[9];
+			cantidadUsuarios ++;
+		}
+		reader.close();
+	}
+	
+	public static void Carga_Personajes(Sistema sistema) throws IOException {
+		File archivo = new File ("src/Personajes.txt"); 
+		FileReader text = new FileReader (archivo); 
+		BufferedReader reader = new BufferedReader(text); 
+		String linea;
+		String[] partes;
+		while((linea = reader.readLine())!=null){
+			partes = linea.split(",");
+			String nombre = partes[0];
+			String rol = partes[1];
+			int cantidadSkins = Integer.parseInt(partes[2]);
+			for(int i=0;i<cantidadSkins;i++) {
+				String nombreSkin = partes[i];	
+				String calidadSkin=partes[i];
+				sistema.agregarSkins(nombreSkin, calidadSkin);
+				sistema.asociarSkinPersonaje(nombre, nombreSkin);
+			}
+			sistema.agregarPersonaje(nombre, rol);
+		}
+		reader.close();
+	}
+	public static void Carga_E() throws NumberFormatException, IOException {
+		File archivo = new File ("Estadisticas.txt"); 
+		FileReader text = new FileReader (archivo);
+		BufferedReader reader = new BufferedReader(text); 
+		String linea;
+		String[] partes;
+		int contador = 0;
+		while((linea = reader.readLine())!=null) {
+			partes  = linea.split(",");
+			personaje[contador]=partes[0];
+			recaudacion[contador]=(int) Double.parseDouble(partes[1]);
+		}
+		reader.close();
+	}
+	
+	}
+}

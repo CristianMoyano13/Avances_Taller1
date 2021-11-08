@@ -1,0 +1,189 @@
+public void menu_cliente() {
+		boolean llave1 =true;
+		while(llave1) {
+			System.out.println("MENU CLIENTE: ");
+			System.out.println("1)Comprar Skin");
+			System.out.println("2)Comprar Personaje");
+			System.out.println("3)Skins Disponibles: ");
+			System.out.println("4)Mostrar Inventario: ");
+			System.out.println("5)Recargar RP: ");
+			System.out.println("6)Mostar Datos Cuenta: ");
+			System.out.println("7)Cambio de contraseña");
+			System.out.println("8)Salir");
+			Scanner sc = new Scanner(System.in);
+			String seleccion = sc.nextLine();
+			if((seleccion).equals("1")) {
+				System.out.println("COMPRAR SKIN");
+				CompraSkin();
+			}
+			else if((seleccion).equals("2")) {
+				System.out.println("COMPRAR PERSONAJE");
+				CompraPersonaje();
+			}
+			if((seleccion).equals("3")) {
+				System.out.println("SKINS DISPONIBLES");
+				SkinDisponibles();
+			}
+			else if((seleccion).equals("4")) {
+				System.out.println("INVENTARIO");
+				mostrarInventario();
+			}
+			if((seleccion).equals("5")) {
+				System.out.println("RECARGA DE RP");
+				recargaRP();
+			}
+			else if((seleccion).equals("6")) {
+				System.out.println("DATOS DE LA CUENTA");
+				DatosCuenta();
+			}
+			else if((seleccion).equals("7")) {
+				System.out.println("CAMBIO CONTRASEÑA");
+				CambioPassword();
+			}
+			else if((seleccion).equals("8")) {
+				llave1 = false;
+				System.out.println("Saliendo");
+			}
+			else {
+				System.out.println("ERROR-NO SE RECONOCE EL COMMANDO");
+			}
+		}
+	}
+	public void CompraSkin() {
+		for(int i=0;i<ListaCuenta.getCont();i++) {
+			if (ListaCuenta.getCuentaI(i).getRp() < 975 ) {
+				System.out.println("No puede realizar la compra, no tiene suficiente dinero");
+			}
+			else {
+				Scanner sc = new Scanner(System.in);
+				String NombreCuenta1 = ListaCuenta.getCuentaI(i).getNombreCuenta();
+				System.out.println("Ingrese el nombre del personaje al cual se le comprará la skin: ");
+				String nombrePersonaje1 = sc.nextLine();
+				if (verificarExistenciaPersonaje1(nombrePersonaje1)) {
+					System.out.println("Ingrese el nombre de la skin: ");
+					String nombreSkin1 = sc.nextLine();
+					if(verificarExistenciaSkin1(nombreSkin1)) {
+						System.out.println("La Skin existe");
+						System.out.println("Realizando la compra...");
+						System.out.println("--------COMPRA REALIZADA CON ÉXITO----------");
+						asociarSkinPersonaje(nombrePersonaje1,nombreSkin1);
+						asociarSkinCuenta(NombreCuenta1,nombreSkin1);
+						int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+						nivel = nivel +1;
+						ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+						}
+					else {
+						System.out.println("La Skin no pertenece al personaje");
+					}
+				}
+				else {
+					System.out.println("El personaje no Existe");
+				}
+			}
+		}
+	}
+	
+	public void CompraPersonaje() {
+		for(int i=0;i<ListaCuenta.getCont();i++) {
+			if (ListaCuenta.getCuentaI(i).getRp() < 975 ) {
+				System.out.println("No puede realizar la compra, no tiene suficiente dinero");
+			}
+			else {
+				Scanner sc = new Scanner(System.in);
+				String NombreCuenta1 = ListaCuenta.getCuentaI(i).getNombreCuenta();
+				System.out.println("Ingrese el nombre del personaje que comprará: ");
+				String nombrePersonaje2 = sc.nextLine();
+				if (verificarExistenciaPersonaje1(nombrePersonaje2)) {
+					System.out.println("El personaje no Existe");
+				}
+				else {
+					System.out.println("El personaje existe");
+					System.out.println("Realizando la compra...");
+					asociarPersonajeCuenta(NombreCuenta1,nombrePersonaje2);
+					int rp = ListaCuenta.getCuentaI(i).getRp();
+					rp = rp -975;
+					ListaCuenta.getCuentaI(i).setRp(rp);
+					int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+					nivel = nivel+1;
+					ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+				
+				}
+			}
+		}
+	}
+	
+	public void SkinDisponibles() {
+		System.out.println("Skins Disponibles");
+	}
+	
+	private void mostrarInventario() {
+		// TODO Auto-generated method stub
+	}
+	
+	private void recargaRP() {
+		Scanner sc = new Scanner(System.in);
+		for(int i=0;i<ListaCuenta.getCont();i++) {
+		System.out.println("Ingrese la cantidad de RP que desea agregar: ");
+		int RPingresado = sc.nextInt();
+		System.out.println("Se ingreso el RP deseado");
+		int Rp = ListaCuenta.getCuentaI(i).getRp();
+		Rp = Rp + RPingresado;
+		ListaCuenta.getCuentaI(i).setRp(Rp);;
+		}
+	}
+	
+	private void DatosCuenta() {
+		for(int i=0;i<ListaCuenta.getCont();i++) {
+			System.out.println("Nombre Cuenta: "+ListaCuenta.getCuentaI(i).getNombreCuenta());
+			System.out.println("Nick de la Cuenta: "+ListaCuenta.getCuentaI(i).getNick());
+			String contraseñaPrint = ListaCuenta.getCuentaI(i).getPassword();
+			System.out.println("Contraseña: "+"******"+contraseñaPrint.substring(contraseñaPrint.length()-3,contraseñaPrint.length()));
+		}
+	}
+	
+	private void CambioPassword() {
+		Scanner sc = new Scanner(System.in);
+		for(int i=0;i<ListaCuenta.getCont();i++) {
+			System.out.println("Ingrese la contraseña antigua: ");
+			String contraseñaAntigua = sc.nextLine();
+			if(contraseñaAntigua.equals(ListaCuenta.getCuentaI(i).getPassword())) {
+				System.out.println("La contraseña es correcta");
+				System.out.println("Ingrese la contraseña nueva: ");
+				String contraseñaNueva = sc.nextLine();
+				System.out.println("Ingrese otra vez la contraseña nueva: ");
+				String contraseñaNueva1 = sc.nextLine();
+				if(contraseñaNueva.equals(contraseñaNueva1)) {
+					System.out.println("Las contraseñas coinciden");
+					System.out.println("Se cambió su contraseña");
+					String password= contraseñaNueva;
+					agregarCuenta(ListaCuenta.getCuentaI(i).getNombreCuenta(),password,ListaCuenta.getCuentaI(i).getNick(),0,0,ListaCuenta.getCuentaI(i).getRegion());
+					ListaCuenta.getCuentaI(i).setPassword(contraseñaNueva1);;
+				}
+			}
+			else {
+				System.out.println("La contraseña es incorrecta");	
+			}
+		}
+	}
+		
+	public boolean verificarExistenciaPersonaje1(String nombre) {
+		Personaje nuevo1 = ListaPersonaje.buscarNombre(nombre);
+		if(nuevo1 == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean verificarExistenciaSkin1(String nombre) {
+		Skins nuevoskin = ListaSkins.buscarNombre(nombre);
+		if(nuevoskin==null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+}

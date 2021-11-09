@@ -1,0 +1,262 @@
+/**
+	 * Esdte procedimiento hará la compra de la skin
+	 */
+	public void CompraSkin() {
+			for(int i=0;i<ListaCuenta.getCont();i++) {
+				if (ListaCuenta.getCuentaI(i).getRp() < 975 ) {
+						System.out.println("No puede realizar la compra, no tiene suficiente dinero");
+					}
+				else {
+					Scanner sc = new Scanner(System.in);
+					String NombreCuenta2 = ListaCuenta.getCuentaI(i).getNombreCuenta();
+					System.out.println("Ingrese el nombre del personaje al cual se le comprará la skin: ");
+					String nombrePersonaje1 = sc.nextLine();
+					if (!verificarExistenciaPersonaje1(nombrePersonaje1)) {
+						System.out.println("El personaje existe");
+						System.out.println("Ingrese el nombre de la skin: ");
+						String nombreSkin1 =  sc.nextLine();
+						if(verificarSkinPersonaje(nombreSkin1)) {
+							System.out.println("La Skin existe");
+							System.out.println("Mítica (M) -> 3250 RP");
+							System.out.println("Definitiva(D) -> 2750 RP");
+							System.out.println("Legendaria(L) ->1820 RP");
+							System.out.println("Épica (E) -> 1350 RP");
+							System.out.println("Normal (N) -> 975 RP");
+							System.out.println("Calidad de la skin(ingrese letra): ");
+							String calidad = sc.nextLine();
+							if(calidad.equalsIgnoreCase("M")) {
+								agregarSkins(nombreSkin1,calidad.toUpperCase());
+								asociarSkinPersonaje(nombreSkin1,nombreSkin1);
+								int rp = ListaCuenta.getCuentaI(i).getRp();
+								rp = rp -3250;
+								ListaCuenta.getCuentaI(i).setRp(rp);
+								int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+								nivel = nivel+1;
+								ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+								
+							}
+							if(calidad.equalsIgnoreCase("D")) {
+								agregarSkins(nombreSkin1,calidad.toUpperCase());
+								asociarSkinPersonaje(nombreSkin1,nombreSkin1);
+								int rp = ListaCuenta.getCuentaI(i).getRp();
+								rp = rp -2750;
+								ListaCuenta.getCuentaI(i).setRp(rp);
+								int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+								nivel = nivel+1;
+								ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+							}
+							if(calidad.equalsIgnoreCase("L")) {
+								agregarSkins(nombreSkin1,calidad.toUpperCase());
+								asociarSkinPersonaje(nombreSkin1,nombreSkin1);
+								int rp = ListaCuenta.getCuentaI(i).getRp();
+								rp = rp -1820;
+								ListaCuenta.getCuentaI(i).setRp(rp);
+								int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+								nivel = nivel+1;
+								ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+							}
+							if(calidad.equalsIgnoreCase("E")) {
+								agregarSkins(nombreSkin1,calidad.toUpperCase());
+								asociarSkinPersonaje(nombreSkin1,nombreSkin1);
+								int rp = ListaCuenta.getCuentaI(i).getRp();
+								rp = rp -1350;
+								ListaCuenta.getCuentaI(i).setRp(rp);
+								int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+								nivel = nivel+1;
+								ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+							}
+							if(calidad.equalsIgnoreCase("N")) {
+								agregarSkins(nombreSkin1,calidad.toUpperCase());
+								asociarSkinPersonaje(nombreSkin1,nombreSkin1);
+								int rp = ListaCuenta.getCuentaI(i).getRp();
+								rp = rp -975;
+								ListaCuenta.getCuentaI(i).setRp(rp);
+								int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+								nivel = nivel+1;
+								ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+							}
+							else {
+								System.out.println("Calidad invalida");
+							}
+							System.out.println("Realizando la compra...");
+							System.out.println("--------COMPRA REALIZADA CON ÉXITO----------");
+							asociarSkinPersonaje(nombrePersonaje1,nombreSkin1);
+							asociarSkinCuenta(NombreCuenta2,nombreSkin1);
+						}
+						else {
+							System.out.println("La Skin NO pertenece al Personaje");
+							break;
+						}
+					}
+					else {
+						System.out.println("El personaje no Existe");
+					}
+				}
+			}
+
+	}
+	/**
+	 * Este procedimiento hará la compra del personaje 
+	 */
+	public void CompraPersonaje() {
+			for(int i=0;i<ListaCuenta.getCont();i++) {
+					if (ListaCuenta.getCuentaI(i).getRp() < 975 ) {
+						System.out.println("No puede realizar la compra, no tiene suficiente dinero");
+					}
+					else {
+						Scanner sc = new Scanner(System.in);
+						String NombreCuenta2 = ListaCuenta.getCuentaI(i).getNombreCuenta();
+						System.out.println("Ingrese el nombre del personaje que comprará: ");
+						String nombrePersonaje2 = sc.nextLine();
+						if (verificarExistenciaPersonaje1(nombrePersonaje2)) {
+							System.out.println("El personaje no Existe");
+							System.out.println("Volviendo al principio...");
+						}
+						else {
+							System.out.println("El personaje existe");
+							System.out.println("Realizando la compra...");
+							asociarPersonajeCuenta(NombreCuenta2,nombrePersonaje2);
+							int rp = ListaCuenta.getCuentaI(i).getRp();
+							rp = rp -975;
+							ListaCuenta.getCuentaI(i).setRp(rp);
+							int nivel = ListaCuenta.getCuentaI(i).getNivelCuenta();
+							nivel = nivel+1;
+							ListaCuenta.getCuentaI(i).setNivelCuenta(nivel);
+							System.out.println("Volviendo al principio...");
+							
+						}
+					}
+			}
+	}
+					
+	/**
+	 * Este procedimiento mostrará las skins disponibles en el sistema
+	 * 
+	 */
+	public void SkinDisponibles() {
+			for(int i=0;i<ListaCuenta.getCont();i++) {
+					for(int j=0;j<ListaSkins.getCont();j++) {
+						for(int k=0;k < ListaCuenta.getCont();k++) {
+							if (ListaSkins.getSkinsI(i).getNombre() .equals((ListaCuenta.getCuentaI(k).getSkins()))) {
+								String SkinsBorrarPrint = ListaSkins.getSkinsI(i).getNombre();
+								SkinsBorrarPrint = null;
+							}
+						}
+					}
+					for(int j=0;j<ListaSkins.getCont();j++) {
+						System.out.println(" "+ListaSkins.getSkinsI(i).getNombre()+" ");
+					}
+			}
+	}
+	/**
+	 * Este Procedimiento mostrará el inventario de la cuenta
+	 */
+	private void mostrarInventario() {
+			for(int i=0;i<ListaCuenta.getCont();i++) {
+					System.out.println("Personajes: "+ ListaCuenta.getCuentaI(i).getPersonajes());	
+					System.out.println("Skins: "+ListaCuenta.getCuentaI(i).getSkins());	
+					System.out.println("Volviendo al principio...");
+				}
+	}
+	
+	/**
+	 * Este procedimiento  Recargará rp a la cuenta
+	 * 
+	 */
+	private void recargaRP() {
+			for(int i=0;i<ListaCuenta.getCont();i++) {
+					Scanner sc = new Scanner(System.in);
+					System.out.println("Ingrese la cantidad de RP que desea agregar: ");
+					int RPingresado = sc.nextInt();
+					System.out.println("Se ingreso el RP deseado");
+					int Rp = ListaCuenta.getCuentaI(i).getRp();
+					Rp = Rp + RPingresado;
+					ListaCuenta.getCuentaI(i).setRp(Rp);
+				}
+	}
+	/**
+	 * Este procedimiento Desplegará los datos de la cuenta ingresada
+	 * 
+	 */
+	private void DatosCuenta() {
+			for(int i=0;i<ListaCuenta.getCont();) {
+				System.out.println("Nombre Cuenta: "+ ListaCuenta.getCuentaI(i).getNombreCuenta());
+				System.out.println("Nick de la Cuenta: "+ListaCuenta.getCuentaI(i).getNick());
+				String contraseñaPrint = ListaCuenta.getCuentaI(i).getPassword();
+				System.out.println("Contraseña: "+"******"+contraseñaPrint.substring(contraseñaPrint.length()-3,contraseñaPrint.length()));
+				System.out.println("Volviendo al principio...");
+				}
+			}
+	/**
+	 * Este procedimiento hara el cambio de contraseña en la cuenta
+	 * 
+	 */
+	private void CambioPassword() {
+			for(int i=0;i<ListaCuenta.getCont();i++) {
+					Scanner sc = new Scanner(System.in);
+					System.out.println("Ingrese la contraseña antigua: ");
+					String contraseñaAntigua = sc.nextLine();
+					if(contraseñaAntigua.equals(ListaCuenta.getCuentaI(i).getPassword())) {
+						System.out.println("La contraseña es correcta");
+						System.out.println("Ingrese la contraseña nueva: ");
+						String contraseñaNueva = sc.nextLine();
+						System.out.println("Ingrese otra vez la contraseña nueva: ");
+						String contraseñaNueva1 = sc.nextLine();
+						if(contraseñaNueva.equals(contraseñaNueva1)) {
+							System.out.println("Las contraseñas coinciden");
+							System.out.println("Se cambió su contraseña");
+							String password= contraseñaNueva;
+							agregarCuenta(ListaCuenta.getCuentaI(i).getNombreCuenta(),password,ListaCuenta.getCuentaI(i).getNick(),0,0,ListaCuenta.getCuentaI(i).getRegion());
+							ListaCuenta.getCuentaI(i).setPassword(contraseñaNueva1);;
+							System.out.println("Volviendo al principio...");
+						}
+					}
+					else {
+						System.out.println("La contraseña es incorrecta");	
+						System.out.println("Volviendo al principio...");
+						}
+				}
+		}
+	
+	/**
+	 * Esta funcion verificará si la skin ingresada pertenece al personaje
+	 * @param nombre
+	 * @return true si pertenece al personaje y false si no pertenece al personaje
+	 */
+	public boolean verificarSkinPersonaje(String nombre) {
+			Skins verificarSkin = ListaSkins.buscarNombre(nombre);
+			if(verificarSkin == null) {
+				return true;
+			}
+			else {
+				return false;
+			}
+	}
+	/**
+	 * Esta funcion verificará si el personaje ingresado existe en el sistema
+	 * @param nombre
+	 * @return true si el personaje existe y false si el personaje no existe
+	 */
+	public boolean verificarExistenciaPersonaje1(String nombre) {
+		Personaje nuevo1 = ListaPersonaje.buscarNombre(nombre);
+		if(nuevo1 == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	/**
+	 * Esta funcion verificará si la skin ingresada existe en el sistema
+	 * @param nombre
+	 * @returntrue si la skin existe y false si la skin no existe
+	 */
+	public boolean verificarExistenciaSkin1(String nombre) {
+		Skins nuevoskin = ListaSkins.buscarNombre(nombre);
+		if(nuevoskin==null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
